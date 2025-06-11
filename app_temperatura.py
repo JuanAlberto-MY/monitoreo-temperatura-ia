@@ -1,5 +1,5 @@
 import streamlit as st # La librería principal para crear la interfaz web
-import git remote add origin https://github.com/JuanAlberto-MY/monitoreo-temperatura-ia.git as np
+import numpy as np
 import pandas as pd
 from sklearn.ensemble import IsolationForest
 import time
@@ -86,8 +86,9 @@ for i in range(1, 151): # Simular 150 lecturas para el ejemplo
         color_lectura = "red"
         # Mostrar mensaje de alerta en la interfaz
         mensaje_alerta = (f"🚨 **¡ALERTA!** Se ha detectado una **ANOMALÍA** "
-                  f"({tipo_anomalia}) en la lectura del sensor: **{nueva_lectura:.2f}°C**. " # <--- CORREGIR AQUÍ
-                  f"¡Se recomienda revisar el sensor!")
+                          f"({tipo_anomalia}) en la lectura del sensor: **{nueva_lectura:.2f}°C**. " # <--- ESTA ES LA LÍNEA CRÍTICA
+                          f"¡Se recomienda revisar el sensor!")
+        alerta_container.error(mensaje_alerta) # Muestra un recuadro de error en rojo
     else:
         alerta_container.empty() # Si no hay anomalía, asegurarse de que no haya un mensaje de alerta visible
 
