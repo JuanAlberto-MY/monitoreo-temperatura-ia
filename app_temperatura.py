@@ -5,15 +5,14 @@ from sklearn.ensemble import IsolationForest
 import time
 import matplotlib.pyplot as plt
 
-# Configuración de Matplotlib para tema oscuro (antes de crear cualquier gráfico)
-plt.rcParams['text.color'] = 'white'
-plt.rcParams['axes.labelcolor'] = 'white'
-plt.rcParams['xtick.color'] = 'white'
-plt.rcParams['ytick.color'] = 'white'
-plt.rcParams['axes.facecolor'] = '#1a1a1a' # Un gris muy oscuro para el fondo del plot
-plt.rcParams['figure.facecolor'] = '#1a1a1a' # El mismo fondo para la figura
-plt.rcParams['grid.color'] = '#404040' # Color de la cuadrícula
-plt.rcParams['legend.facecolor'] = '#2a2a2a' # Fondo de la leyenda
+plt.rcParams['text.color'] = '#333333'
+plt.rcParams['axes.labelcolor'] = '#333333'
+plt.rcParams['xtick.color'] = '#333333'
+plt.rcParams['ytick.color'] = '#333333'
+plt.rcParams['axes.facecolor'] = 'white'
+plt.rcParams['figure.facecolor'] = '#f5f5f5'
+plt.rcParams['grid.color'] = '#e0e0e0'
+plt.rcParams['legend.facecolor'] = 'white'
 
 np.random.seed(42)
 
@@ -31,13 +30,16 @@ data_for_model_training = temperatura_con_fallos_entrenamiento.reshape(-1, 1)
 model = IsolationForest(contamination=0.03, random_state=42)
 model.fit(data_for_model_training)
 
-st.set_page_config(page_title="Monitor de Sensor de Temperatura", layout="wide", theme="dark")
+st.set_page_config(page_title="Monitor de Sensor de Temperatura", layout="wide", theme="light")
 
-# CSS para cambiar el color de fondo de la aplicación (un gris casi negro para combinar con tema dark)
 st.markdown("""
 <style>
 .stApp {
-    background-color: #1a1a1a; /* Un gris muy oscuro para el fondo general */
+    background-color: #f5f5f5;
+    color: #333333;
+}
+h1, h2, h3, h4, h5, h6 {
+    color: #2c3e50;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -113,26 +115,23 @@ for i in range(1, 151):
         num_lecturas_grafico = 50
         df_para_grafico = historial_lecturas_df.tail(num_lecturas_grafico)
 
-        # Gráfico con ajustes de tamaño y visibilidad
-        fig, ax = plt.subplots(figsize=(6, 2.5)) # Tamaño aún más pequeño
+        fig, ax = plt.subplots(figsize=(6, 2.5))
         
-        ax.plot(df_para_grafico['Hora'], df_para_grafico['valor_numerico'], label='Temperatura', color='skyblue', linewidth=2)
+        ax.plot(df_para_grafico.index, df_para_grafico['valor_numerico'], label='Temperatura', color='blue', linewidth=2)
         
         anomalias_grafico = df_para_grafico[df_para_grafico['Estado'] == 'ANOMALÍA DETECTADA']
         if not anomalias_grafico.empty:
-            ax.scatter(anomalias_grafico['Hora'], anomalias_grafico['valor_numerico'], color='red', s=120, marker='X', linewidths=1, edgecolors='white', label='Anomalía') # Marcadores más visibles
+            ax.scatter(anomalias_grafico.index, anomalias_grafico['valor_numerico'], color='red', s=120, marker='X', linewidths=1, edgecolors='white', label='Anomalía')
 
-        ax.set_xlabel('Hora', fontsize=10)
+        ax.set_xlabel('Lectura #')
         ax.set_ylabel('Temperatura (°C)', fontsize=10)
         ax.set_title(f'Últimas {num_lecturas_grafico} Lecturas de Temperatura', fontsize=12)
         
-        # Limitar las etiquetas del eje X para mayor claridad
-        ax.locator_params(axis='x', nbins=5) # Mostrar solo 5 etiquetas en el eje X
-        ax.tick_params(axis='x', rotation=45, labelsize=8) # Rotar y reducir tamaño de fuente
+        ax.tick_params(axis='x', labelsize=8)
         ax.tick_params(axis='y', labelsize=8)
         
-        ax.legend(fontsize=9, loc='upper left') # Ubicación de la leyenda
-        ax.grid(True, linestyle='--', alpha=0.5) # Cuadrícula más sutil
+        ax.legend(fontsize=9, loc='upper left')
+        ax.grid(True, linestyle='--', alpha=0.5)
         plt.tight_layout()
 
         st.pyplot(fig)
