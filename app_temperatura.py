@@ -5,7 +5,9 @@ from sklearn.ensemble import IsolationForest
 import time
 import matplotlib.pyplot as plt
 
-st.set_page_config(page_title="Monitor de Sensor de Temperatura", layout="wide", theme="light")
+if 'page_config_set' not in st.session_state:
+    st.session_state['page_config_set'] = True
+    st.set_page_config(page_title="Monitor de Sensor de Temperatura", layout="wide", theme="light")
 
 plt.rcParams['text.color'] = '#333333'
 plt.rcParams['axes.labelcolor'] = '#333333'
