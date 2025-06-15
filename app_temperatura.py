@@ -9,10 +9,10 @@ plt.rcParams['text.color'] = 'white'
 plt.rcParams['axes.labelcolor'] = 'white'
 plt.rcParams['xtick.color'] = 'white'
 plt.rcParams['ytick.color'] = 'white'
-plt.rcParams['axes.facecolor'] = '#1a1a1a'
-plt.rcParams['figure.facecolor'] = '#1a1a1a'
-plt.rcParams['grid.color'] = '#404040'
-plt.rcParams['legend.facecolor'] = '#2a2a2a'
+plt.rcParams['axes.facecolor'] = '#1a1a1a' 
+plt.rcParams['figure.facecolor'] = '#1a1a1a' 
+plt.rcParams['grid.color'] = '#404040' 
+plt.rcParams['legend.facecolor'] = '#2a2a2a' 
 
 np.random.seed(42)
 
@@ -32,10 +32,11 @@ model.fit(data_for_model_training)
 
 st.set_page_config(page_title="Monitor de Sensor de Temperatura", layout="wide", theme="dark")
 
+# CSS para cambiar el color de fondo de la aplicación (un gris casi negro para combinar con tema dark)
 st.markdown("""
 <style>
 .stApp {
-    background-color: #1a1a1a;
+    background-color: #1a1a1a; /* Un gris muy oscuro para el fondo general */
 }
 </style>
 """, unsafe_allow_html=True)
@@ -111,23 +112,24 @@ for i in range(1, 151):
         num_lecturas_grafico = 50
         df_para_grafico = historial_lecturas_df.tail(num_lecturas_grafico)
 
-        fig, ax = plt.subplots(figsize=(6, 2.5))
+        fig, ax = plt.subplots(figsize=(6, 2.5)) 
         
-        ax.plot(df_para_grafico.index, df_para_grafico['valor_numerico'], label='Temperatura', color='skyblue', linewidth=2)
+        ax.plot(df_para_grafico['Hora'], df_para_grafico['valor_numerico'], label='Temperatura', color='skyblue', linewidth=2)
         
         anomalias_grafico = df_para_grafico[df_para_grafico['Estado'] == 'ANOMALÍA DETECTADA']
         if not anomalias_grafico.empty:
-            ax.scatter(anomalias_grafico.index, anomalias_grafico['valor_numerico'], color='red', s=100, marker='X', label='Anomalía')
+            ax.scatter(anomalias_grafico['Hora'], anomalias_grafico['valor_numerico'], color='red', s=120, marker='X', linewidths=1, edgecolors='white', label='Anomalía') # Marcadores más visibles
 
-        ax.set_xlabel('Hora')
+        ax.set_xlabel('Hora', fontsize=10)
         ax.set_ylabel('Temperatura (°C)', fontsize=10)
         ax.set_title(f'Últimas {num_lecturas_grafico} Lecturas de Temperatura', fontsize=12)
         
-        ax.tick_params(axis='x', rotation=45, labelsize=8)
+        ax.locator_params(axis='x', nbins=5)
+        ax.tick_params(axis='x', rotation=45, labelsize=8) 
         ax.tick_params(axis='y', labelsize=8)
         
-        ax.legend(fontsize=9, loc='upper left')
-        ax.grid(True, linestyle='--', alpha=0.5)
+        ax.legend(fontsize=9, loc='upper left') 
+        ax.grid(True, linestyle='--', alpha=0.5) 
         plt.tight_layout()
 
         st.pyplot(fig)
