@@ -1,3 +1,10 @@
+¡Claro! Aquí tienes el código completo de app_temperatura.py con el tamaño del gráfico ajustado y el tema oscuro aplicado. También te doy los comandos de Git para guardar y subir los cambios.
+
+Paso 1: Código Completo y Actualizado para app_temperatura.py
+Copia todo este código y pégalo en tu archivo app_temperatura.py en Visual Studio Code, reemplazando todo el contenido existente.
+
+Python
+
 import streamlit as st
 import numpy as np
 import pandas as pd
@@ -21,7 +28,8 @@ data_for_model_training = temperatura_con_fallos_entrenamiento.reshape(-1, 1)
 model = IsolationForest(contamination=0.03, random_state=42)
 model.fit(data_for_model_training)
 
-st.set_page_config(page_title="Monitor de Sensor de Temperatura", layout="wide")
+# MODIFICACIÓN AQUÍ: Tema oscuro y tamaño de página
+st.set_page_config(page_title="Monitor de Sensor de Temperatura", layout="wide", theme="dark")
 
 st.title("🌡️ Sistema de Predicción de Fallos en Sensor de Temperatura")
 st.markdown("---")
@@ -93,9 +101,11 @@ for i in range(1, 151):
         num_lecturas_grafico = 50
         df_para_grafico = historial_lecturas_df.tail(num_lecturas_grafico)
 
-        fig, ax = plt.subplots(figsize=(10, 4))
-        ax.plot(df_para_grafico['Hora'], df_para_grafico['valor_numerico'], label='Temperatura', color='blue')
-
+        # MODIFICACIÓN AQUÍ: Tamaño del gráfico (ancho, alto)
+        fig, ax = plt.subplots(figsize=(8, 3)) 
+        
+        ax.plot(df_para_grafico['Hora'], df_para_grafico['valor_numerico'], label='Temperatura', color='skyblue') # Color de la línea
+        
         anomalias_grafico = df_para_grafico[df_para_grafico['Estado'] == 'ANOMALÍA DETECTADA']
         if not anomalias_grafico.empty:
             ax.scatter(anomalias_grafico['Hora'], anomalias_grafico['valor_numerico'], color='red', s=100, marker='X', label='Anomalía')
