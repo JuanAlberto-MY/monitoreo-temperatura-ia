@@ -1,10 +1,3 @@
-¡Claro! Aquí tienes el código completo de app_temperatura.py con el tamaño del gráfico ajustado y el tema oscuro aplicado. También te doy los comandos de Git para guardar y subir los cambios.
-
-Paso 1: Código Completo y Actualizado para app_temperatura.py
-Copia todo este código y pégalo en tu archivo app_temperatura.py en Visual Studio Code, reemplazando todo el contenido existente.
-
-Python
-
 import streamlit as st
 import numpy as np
 import pandas as pd
@@ -28,8 +21,18 @@ data_for_model_training = temperatura_con_fallos_entrenamiento.reshape(-1, 1)
 model = IsolationForest(contamination=0.03, random_state=42)
 model.fit(data_for_model_training)
 
-# MODIFICACIÓN AQUÍ: Tema oscuro y tamaño de página
-st.set_page_config(page_title="Monitor de Sensor de Temperatura", layout="wide", theme="dark")
+# MODIFICACIÓN AQUÍ: Tema oscuro (o light) y tamaño de página
+st.set_page_config(page_title="Monitor de Sensor de Temperatura", layout="wide", theme="dark") # Puedes probar "light" si quieres un fondo claro por defecto
+
+# MODIFICACIÓN AQUÍ: CSS para cambiar el color de fondo de la aplicación
+st.markdown("""
+<style>
+.stApp {
+    background-color: #e0f7fa; /* Un azul claro MUY NOTORIO */
+}
+</style>
+""", unsafe_allow_html=True)
+
 
 st.title("🌡️ Sistema de Predicción de Fallos en Sensor de Temperatura")
 st.markdown("---")
@@ -101,10 +104,10 @@ for i in range(1, 151):
         num_lecturas_grafico = 50
         df_para_grafico = historial_lecturas_df.tail(num_lecturas_grafico)
 
-        # MODIFICACIÓN AQUÍ: Tamaño del gráfico (ancho, alto)
-        fig, ax = plt.subplots(figsize=(8, 3)) 
+        # MODIFICACIÓN AQUÍ: Tamaño del gráfico (ancho, alto) - ahora más pequeño
+        fig, ax = plt.subplots(figsize=(7, 2.5)) 
         
-        ax.plot(df_para_grafico['Hora'], df_para_grafico['valor_numerico'], label='Temperatura', color='skyblue') # Color de la línea
+        ax.plot(df_para_grafico['Hora'], df_para_grafico['valor_numerico'], label='Temperatura', color='blue') # Color de la línea del gráfico
         
         anomalias_grafico = df_para_grafico[df_para_grafico['Estado'] == 'ANOMALÍA DETECTADA']
         if not anomalias_grafico.empty:
