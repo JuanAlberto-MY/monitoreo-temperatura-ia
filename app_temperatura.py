@@ -5,8 +5,7 @@ from sklearn.ensemble import IsolationForest
 import time
 import matplotlib.pyplot as plt
 
-# MODIFICACIÓN: st.set_page_config se ha movido aquí, debe ser el PRIMER comando de Streamlit.
-st.set_page_config(page_title="Monitor de Sensor de Temperatura", layout="wide", theme="dark")
+st.set_page_config(page_title="Monitor de Sensor de Temperatura", layout="wide", theme="light")
 
 plt.rcParams['text.color'] = '#333333'
 plt.rcParams['axes.labelcolor'] = '#333333'
@@ -33,8 +32,9 @@ data_for_model_training = temperatura_con_fallos_entrenamiento.reshape(-1, 1)
 model = IsolationForest(contamination=0.03, random_state=42)
 model.fit(data_for_model_training)
 
+st.title("🌡️ Sistema de Predicción de Fallos en Sensor de Temperatura")
+st.markdown("---")
 
-# CSS para cambiar el color de fondo de la aplicación (un gris casi negro para combinar con tema dark)
 st.markdown("""
 <style>
 .stApp {
@@ -46,10 +46,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 </style>
 """, unsafe_allow_html=True)
-
-
-st.title("🌡️ Sistema de Predicción de Fallos en Sensor de Temperatura")
-st.markdown("---")
 
 st.subheader("Monitoreo de Temperatura en Tiempo Real")
 
